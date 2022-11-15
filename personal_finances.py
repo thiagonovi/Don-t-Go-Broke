@@ -1,11 +1,16 @@
+# os is for the cleanConsole() and datetime is fot getting the date of today for new expenses and gains
 import os, datetime
 
 prompt = "> "
 
+
+# Function to clear the console everytime you change screens
 def cleanConsole():
     command = "clear"
     os.system(command)
 
+# Function to read your current balance.
+# It will always be in the first line of the statement.txt
 def read_balance():
     cleanConsole()
     with open("statement.txt") as statement:
@@ -14,6 +19,7 @@ def read_balance():
     input("Press any key to go back to the menu.")
     menu()
 
+# Function to register a new gain in the statement.txt
 def register_gain(gain, description):
     with open("statement.txt") as statement:
         lines = statement.readlines()
@@ -21,6 +27,7 @@ def register_gain(gain, description):
     new_balance = str((int(prev_balace) + gain)) + '\n'
     lines[0] = new_balance
 
+    # Appends first the datetime, then the description in the next line and then the gain in the next
     lines.append(str(datetime.date.today()) + '\n')
     lines.append(description + '\n')
     lines.append(str(gain) + '\n')
@@ -32,6 +39,7 @@ def register_gain(gain, description):
     input("\nNew gain registered successfully! Press any key to go back to the menu.")
     menu()
 
+# Function to register a new expense in the statement.txt
 def register_expense(expense, description):
     with open("statement.txt") as statement:
         lines = statement.readlines()
@@ -39,6 +47,7 @@ def register_expense(expense, description):
     new_balance = str((int(prev_balace) - expense)) + '\n'
     lines[0] = new_balance
 
+    # Appends first the datetime, then the description in the next line and then the expense in the next
     lines.append(str(datetime.date.today()) + '\n')
     lines.append(description + '\n')
     lines.append(str(- expense) + '\n')
@@ -50,12 +59,14 @@ def register_expense(expense, description):
     input("\nNew expense registered successfully! Press any key to go back to the menu.")
     menu()
 
+# Function to check your whole statement
 def check_statement():
     with open("statement.txt") as statement:
         lines = statement.readlines()
     length = len(lines) - 1
     ratio = length / 3
     n = 1
+    print("Your statement:\n")
     while n <= ratio:
         print(lines[3 * n - 2].rstrip('\n') + "\t",
         lines[3 * n - 1].rstrip('\n') + '\t',
@@ -65,9 +76,7 @@ def check_statement():
     input("Press any key to go back to the menu.")
     menu()
 
-
-
-
+# Function of the menu
 def menu():
     cleanConsole()
     print("""What do you want do do?
@@ -107,4 +116,5 @@ def menu():
         input(f"'{response}' isn't a valid option! Please, press any key to go back to the menu.")
         menu()
 
+# Start of the program
 menu()
