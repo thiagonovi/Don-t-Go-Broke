@@ -1,4 +1,4 @@
-import os
+import os, datetime
 
 prompt = "> "
 
@@ -14,13 +14,17 @@ def read_balance():
     input("Press any key to go back to the menu.")
     menu()
 
-def register_gain(gain):
+def register_gain(gain, description):
     with open("statement.txt") as statement:
         lines = statement.readlines()
     prev_balace = lines[0].rstrip('\n')
     new_balance = str((int(prev_balace) + gain)) + '\n'
     lines[0] = new_balance
+
+    lines.append(str(datetime.date.today()) + '\n')
+    lines.append(description + '\n')
     lines.append(str(gain) + '\n')
+
     with open("statement.txt", 'w') as statement:
         for line in lines:
             statement.write(line)
@@ -28,13 +32,17 @@ def register_gain(gain):
     input("\nNew gain registered successfully! Press any key to go back to the menu.")
     menu()
 
-def register_expense(expense):
+def register_expense(expense, description):
     with open("statement.txt") as statement:
         lines = statement.readlines()
     prev_balace = lines[0].rstrip('\n')
     new_balance = str((int(prev_balace) - expense)) + '\n'
     lines[0] = new_balance
-    lines.append(str(expense) + '\n')
+
+    lines.append(str(datetime.date.today()) + '\n')
+    lines.append(description + '\n')
+    lines.append(str(- expense) + '\n')
+
     with open("statement.txt", 'w') as statement:
         for line in lines:
             statement.write(line)
@@ -59,12 +67,14 @@ def menu():
         cleanConsole()
         print("What is the value of this new expense?")
         expense = int(input(prompt + "R$"))
-        register_expense(expense)
+        description = input("\nAdd a description to this expense\n" + prompt)
+        register_expense(expense, description)
     elif response == "3":
         cleanConsole()
         print("What is the value of this new gain?")
         gain = int(input(prompt + "R$"))
-        register_gain(gain)
+        description = input("\nAdd a description to this gain\n" + prompt)
+        register_gain(gain, description)
     elif response == "4":
         cleanConsole()
         print("Are you sure you want to closse the app? [y/n]")
