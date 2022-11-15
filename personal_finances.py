@@ -50,6 +50,22 @@ def register_expense(expense, description):
     input("\nNew expense registered successfully! Press any key to go back to the menu.")
     menu()
 
+def check_statement():
+    with open("statement.txt") as statement:
+        lines = statement.readlines()
+    length = len(lines) - 1
+    ratio = length / 3
+    n = 1
+    while n <= ratio:
+        print(lines[3 * n - 2].rstrip('\n') + "\t",
+        lines[3 * n - 1].rstrip('\n') + '\t',
+        lines[3 * n].rstrip('\n') + '\t')
+        n += 1
+    print(f"\nBalance: R${lines[0]}")
+    input("Press any key to go back to the menu.")
+    menu()
+
+
 
 
 def menu():
@@ -57,8 +73,9 @@ def menu():
     print("""What do you want do do?
     1. Check my balance
     2. Register an expense
-    3. Registe a gain
-    4. CLose the app""")
+    3. Register a gain
+    4. Check you statement
+    5. CLose the app""")
     response = input(prompt)
 
     if response == "1":
@@ -76,6 +93,9 @@ def menu():
         description = input("\nAdd a description to this gain\n" + prompt)
         register_gain(gain, description)
     elif response == "4":
+        cleanConsole()
+        check_statement()
+    elif response == "5":
         cleanConsole()
         print("Are you sure you want to closse the app? [y/n]")
         close_response = input(prompt)
