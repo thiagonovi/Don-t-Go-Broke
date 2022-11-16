@@ -88,14 +88,21 @@ def check_statement():
     > Last 30 days
     > Last 60 days\n""")
     statement_period = input(prompt)
-    if statement_period == "2":
+    if len(lines) == 1:
+        cleanConsole()
+        print("You don't have any entrances in your statement yet.")
+    elif statement_period == "2":
         statement_function(2)
-    if statement_period == "5":
+    elif statement_period == "5":
         statement_function(5)
-    if statement_period == "30":
+    elif statement_period == "30":
         statement_function(30)
-    if statement_period == "60":
+    elif statement_period == "60":
         statement_function(60)
+    else:
+        cleanConsole()
+        print("Plese, select a valid option.\n")
+        check_statement()
     print(f"\nBalance: R${balance_statement}")
     input("Press any key to go back to the menu.")
     menu()
