@@ -62,6 +62,7 @@ def register_expense(expense, description):
     input("\nNew expense registered successfully! Press any key to go back to the menu.")
     menu()
 
+# Functions to check your whole statement
 def statement_function(days_behind):
     date = datetime.date.today() - timedelta(days=days_behind)
     with open("statement.txt") as statement:
@@ -78,7 +79,6 @@ def statement_function(days_behind):
         "%10s"%(lines[n + 2].rstrip('\n')))
         n += 3
 
-# Function to check your whole statement
 def check_statement():
     with open("statement.txt") as statement:
         lines = statement.readlines()
@@ -108,27 +108,30 @@ def check_statement():
     input("Press any key to go back to the menu.")
     menu()
 
-
+# Functions to make an inteligent search on the users expenses
 def search_function(days_behind, description):
     date = datetime.date.today() - timedelta(days=days_behind)
     with open("statement.txt") as statement:
             lines = statement.readlines()
     while ((str(date) + '\n') not in lines) and (date <= datetime.date.today()):
-        date = date + timedelta(days=1)
-    n = lines.index(str(date) + '\n')
-    all_expense = Decimal(0.00)
-    cleanConsole()
-    while n <= (len(lines) - 3):
-        if lines[n + 1] == (description + '\n'):
-            all_expense = all_expense + Decimal(lines[n + 2])
-            print("%10s"%(lines[n].rstrip('\n')),
-            "%10s"%(lines[n + 1].rstrip('\n')),
-            "%10s"%(lines[n + 2].rstrip('\n')))
-            n += 3
-        else:
-            n += 3
-    print(f"\nYour total expense with '{description.rstrip()}' in the last {days_behind} days:\n")
-    print('R$' + str(all_expense * -1) + '\n')
+        date += timedelta(days=1)
+    if date in lines:
+        n = lines.index(str(date) + '\n')
+        all_expense = Decimal(0.00)
+        cleanConsole()
+        while n <= (len(lines) - 3):
+            if lines[n + 1] == (description + '\n'):
+                all_expense = all_expense + Decimal(lines[n + 2])
+                print("%10s"%(lines[n].rstrip('\n')),
+                "%10s"%(lines[n + 1].rstrip('\n')),
+                "%10s"%(lines[n + 2].rstrip('\n')))
+                n += 3
+            else:
+                n += 3
+        print(f"\nYour total expense with '{description.rstrip()}' in the last {days_behind} days:\n")
+        print('R$' + str(all_expense * -1) + '\n')
+    else:
+        print(f"You have no expenses marked as '{description}' in the last {days_behind} days")
 
 def expense_search(description):
     with open("statement.txt") as statement:
