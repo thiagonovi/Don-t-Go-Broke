@@ -67,17 +67,19 @@ def statement_function(days_behind):
     date = datetime.date.today() - timedelta(days=days_behind)
     with open("statement.txt") as statement:
         lines = statement.readlines()
-    while (str(date) + '\n') not in lines:
-        date = date + timedelta(days=1)
-    date_index = lines.index(str(date) + '\n')
-    n = date_index
-    cleanConsole()
-    print(f"Your statement from the last {days_behind} days:\n")
-    while n <= (len(lines) - 3):
-        print("%10s"%(lines[n].rstrip('\n')),
-        "%10s"%(lines[n + 1].rstrip('\n')),
-        "%10s"%(lines[n + 2].rstrip('\n')))
-        n += 3
+    while ((str(date) + '\n') not in lines) and (date <= datetime.date.today()):
+        date += timedelta(days=1)
+    if (str(date) + '\n') in lines:
+        n = lines.index(str(date) + '\n')
+        cleanConsole()
+        print(f"Your statement from the last {days_behind} days:\n")
+        while n <= (len(lines) - 3):
+            print("%10s"%(lines[n].rstrip('\n')),
+            "%10s"%(lines[n + 1].rstrip('\n')),
+            "%10s"%(lines[n + 2].rstrip('\n')))
+            n += 3
+    else:
+        print(f"You have no statement entries in the in the last {days_behind} days")
 
 def check_statement():
     with open("statement.txt") as statement:
@@ -115,7 +117,7 @@ def search_function(days_behind, description):
             lines = statement.readlines()
     while ((str(date) + '\n') not in lines) and (date <= datetime.date.today()):
         date += timedelta(days=1)
-    if date in lines:
+    if (str(date) + '\n') in lines:
         n = lines.index(str(date) + '\n')
         all_expense = Decimal(0.00)
         cleanConsole()

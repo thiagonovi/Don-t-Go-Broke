@@ -1,1 +1,0 @@
-1. Solve the date bug on inteligent and statement search
