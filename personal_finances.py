@@ -1,4 +1,3 @@
-# os is for the cleanConsole() and datetime is fot getting the date of today for new expenses and gains
 from decimal import Decimal
 from tkinter import *
 import os
@@ -164,16 +163,16 @@ def expense_search(description):
 
 # Function of the menu
 
-menu = Tk()
+root = Tk()
 
-menuTitle1 = Label(menu, text="Welcome to Don\'t go broke!")
-menuTitle2 = Label(menu, text="What do you want to to do?")
-menuOption1 = Button(menu, text="Check my balance", command=read_balance)
-menuOption2 = Button(menu, text="Register an expense", command=register_expense)
-menuOption3 = Button(menu, text="Register a gain", command=register_gain)
-menuOption4 = Button(menu, text="Check your statement", command=check_statement)
-menuOption5 = Button(menu, text="Expense search", command=expense_search)
-menuOption6 = Button(menu, text="Close the app", command=exit)
+menuTitle1 = Label(root, text="Welcome to Don\'t go broke!")
+menuTitle2 = Label(root, text="What do you want to to do?")
+menuOption1 = Button(root, text="Check my balance", command=read_balance)
+menuOption2 = Button(root, text="Register an expense", command=register_expense)
+menuOption3 = Button(root, text="Register a gain", command=register_gain)
+menuOption4 = Button(root, text="Check your statement", command=check_statement)
+menuOption5 = Button(root, text="Expense search", command=expense_search)
+menuOption6 = Button(root, text="Close the app", command=exit)
 
 menuTitle1.grid(row=0, column=0)
 menuTitle2.grid(row=2, column=0)
@@ -184,7 +183,7 @@ menuOption4.grid(row=6, column=0)
 menuOption5.grid(row=7, column=0)
 menuOption6.grid(row=8, column=0)
 
-menu.mainloop()
+root.mainloop()
 
 def menu():
     cleanConsole()
